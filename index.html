@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html ng-app="examplesApp">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Beer Finder</title>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.22/angular.min.js" /></script>
+    <script src='http://maps.googleapis.com/maps/api/js?key=AIzaSyBnLV_sV_txKSddyOUCulWx8zotNIzQOuA&sensor=false'></script>
+    <script type="text/javascript" src="js/lodash.js" ></script>
+    <script type="text/javascript" src="js/angular-google-maps.min.js" ></script>
+    <script type="text/javascript" src="js/app.js" ></script>
+    <script type="text/javascript" src="js/maps/geocoder.js" ></script>
+    <script type="text/javascript" src="js/maps/maps-controller.js" ></script>
+	<script type="text/javascript" src="js/dotansimha-angularjs-dropdown-multiselect-8f751d8/src/angularjs-dropdown-multiselect.js"></script>
+	<script src="js/lodash-master/lodash.js"></script>
+	
+    <link href="css/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/styles.css" rel="stylesheet" />
+</head>
+<body>
+
+<div id="log">
+
+</div>
+
+<section class="tab" ng-controller="TabController as tab">
+	<ul class="nav nav-pills">
+	  <li ng-class="{ active: tab.isSet(1) }">
+		<a href ng-click="tab.setTab(1)">Bars</a></li>
+	  <li ng-class="{ active: tab.isSet(2) }">
+		<a href ng-click="tab.setTab(2)">Bières</a></li>
+	  <li ng-class="{ active: tab.isSet(3) }">
+		<a href ng-click="tab.setTab(3)">Plus</a></li>
+	</ul>
+	</br>
+	<div ng-if="tab.isSet(1)" ng-controller="MapsController">
+		<form>
+			<div class="form-group">
+				<div extra-settings="example7settings" translation-texts={buttonDefaultText:'Filtres'} ng-dropdown-multiselect="" options="example1data" selected-model="example1model" group-by="type"></div>
+				<input  type="text" class="form-control" ng-model="address" id="inputAddress" placeholder="Trouver un bar">
+			</div>
+			<!--<button type="submit" class="btn btn-primary" ng-click="findAddress()">Allons boire!</button-->
+			<button type="submit" class="btn btn-primary" ng-click="findMe()">Me localiser</button>
+			<button type="submit" class="btn btn-primary" ng-click="showBar()">Afficher les bars</button>
+		</form>
+			<google-map center="map.center" zoom="map.zoom">
+				<markers>
+				<marker ng-repeat="marker in markers" coords="marker.coords" idKey="marker.id">
+				</marker>
+			</markers>
+			</google-map>
+	</div>
+		
+	<div ng-if="tab.isSet(2)" ng-controller="MapsController">
+		<form>
+			<div class="form-group">
+				<div translation-texts={buttonDefaultText:'Filtres'} ng-dropdown-multiselect="" options="example2data" selected-model="example2model" group-by="type"></div>
+				<input  type="text" class="form-control" ng-model="address" id="inputAddress" placeholder="Trouver une bière">
+			</div>
+			<button type="submit" class="btn btn-primary" ng-click="findAddress2()">Allons boire!</button>
+		</form>
+			<google-map center="map.center" zoom="map.zoom">
+			<markers>
+				<marker coords="marker.coords" >
+				</marker>
+			</markers>
+			</google-map>
+	</div>
+	<div ng-if="tab.isSet(3)">
+	  <h4>Plus</h4>
+	</div>
+</section>
+
+
+
+<!--<div class="container">
+    <!-- Example row of columns 
+    <div class="row">
+        <div class="col-md-4">
+            <div ng-controller="MapsController">
+
+                <form>
+                    <div class="form-group">
+                        <label for="inputAddress">Address</label>
+                        <input type="text" class="form-control" ng-model="address" id="inputAddress" placeholder="Insert here your postal address">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" ng-click="findAddress()">Find in the map!</button>
+                </form>
+
+                <google-map center="map.center" zoom="map.zoom">
+                </google-map>
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+
+</div> <!-- /container -->
+</body>
+</html>
